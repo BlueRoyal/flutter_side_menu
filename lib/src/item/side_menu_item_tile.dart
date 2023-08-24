@@ -22,27 +22,50 @@ class SideMenuItemTile extends StatefulWidget {
 class _SideMenuItemTileState extends State<SideMenuItemTile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.data.itemHeight,
-      margin: widget.data.margin,
-      decoration: ShapeDecoration(
-        shape: shape(context),
-        color: widget.data.isSelected
-            ? widget.data.highlightSelectedColor ??
-                Theme.of(context).colorScheme.secondaryContainer
-            : null,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        clipBehavior: Clip.hardEdge,
-        shape: shape(context),
-        child: InkWell(
-          onTap: widget.data.onTap,
-          hoverColor: widget.data.hoverColor,
-          child: _createView(context: context),
+    return _buildContent(context);
+  }
+
+  Widget _buildContent(BuildContext context) {
+    if (widget.data.children?.isEmpty ?? true) {
+      return Container(
+        height: 50,
+        margin: widget.data.margin,
+        decoration: ShapeDecoration(
+          shape: shape(context),
+          color: widget.data.isSelected
+              ? widget.data.highlightSelectedColor ??
+                  Theme.of(context).colorScheme.secondaryContainer
+              : null,
         ),
-      ),
-    );
+        child: Material(
+          color: Colors.transparent,
+          clipBehavior: Clip.hardEdge,
+          shape: shape(context),
+          child: InkWell(
+            onTap: widget.data.onTap,
+            hoverColor: widget.data.hoverColor,
+            child: _createView(context: context),
+          ),
+        ),
+      );
+    } else {
+      return ExpansionTile(
+          leading: widget.data.icon,
+          shape: shape(context),
+          textColor: Colors
+              .white, 
+          title: _title(context: context),
+          children: widget.data.children!
+              .map(
+                (child) => SideMenuItemTile(
+                  isOpen: widget.isOpen,
+                  minWidth: widget.minWidth,
+                  data: child,
+                ),
+              )
+              .toList(),
+        );
+    }
   }
 
   OutlinedBorder shape(BuildContext context) {
@@ -55,8 +78,10 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
 
   Color getSelectedColor() {
     return widget.data.isSelected
-        ? widget.data.selectedTitleStyle?.color  ?? Theme.of(context).colorScheme.onSecondaryContainer
-        : widget.data.titleStyle?.color ?? Theme.of(context).colorScheme.onSurfaceVariant;
+        ? widget.data.selectedTitleStyle?.color ??
+            Theme.of(context).colorScheme.onSecondaryContainer
+        : widget.data.titleStyle?.color ??
+            Theme.of(context).colorScheme.onSurfaceVariant;
   }
 
   Widget? getSelectedIcon() {
