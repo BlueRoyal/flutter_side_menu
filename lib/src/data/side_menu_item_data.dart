@@ -29,6 +29,7 @@ class SideMenuItemDataTile extends SideMenuItemData {
     this.hoverColor,
     this.badgePosition,
     this.badgeStyle,
+    this.children,
   })  : assert(itemHeight >= 0.0),
         assert(icon != null || title != null),
         super();
@@ -48,12 +49,13 @@ class SideMenuItemDataTile extends SideMenuItemData {
   final double itemHeight;
   final EdgeInsetsDirectional margin;
   final BorderRadiusGeometry? borderRadius;
+  final List<SideMenuItemDataTile>? children;
   final Color? hoverColor,
       highlightSelectedColor;
 }
 
 class SideMenuItemDataTitle extends SideMenuItemData {
-  const SideMenuItemDataTitle({
+  const SideMenuItemDataTitle( {
     required this.title,
     this.titleStyle,
     this.textAlign,
