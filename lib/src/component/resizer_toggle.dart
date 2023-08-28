@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/src/data/resizer_toggle_data.dart';
-import 'package:flutter_side_menu/src/utils/utils.dart';
+import "package:flutter/material.dart";
+import "package:flutter_side_menu/src/data/resizer_toggle_data.dart";
+import "package:flutter_side_menu/src/utils/utils.dart";
 
 class ResizerToggle extends StatefulWidget {
   const ResizerToggle({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.rightArrow,
     this.leftPosition = true,
     ResizerToggleData? data,
-  })  : data = data ?? const ResizerToggleData(),
-        super(key: key);
+  }) : data = data ?? const ResizerToggleData();
   final void Function() onTap;
   final bool rightArrow, leftPosition;
   final ResizerToggleData data;

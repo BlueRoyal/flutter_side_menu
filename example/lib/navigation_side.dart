@@ -54,28 +54,32 @@ class NavigationSide extends StatelessWidget {
                     ),
                     items: [
                       ..._navItems
+                          .asMap()
+                          .entries
                           .map(
                             (e) => SideMenuItemDataTile(
-                              isSelected: e.name == 'Item 1',
+                              // isSelected: e.value.name == 'Item 1',
                               onTap: () {},
-                              title: e.name,
+                              title: e.value.name,
                               icon: Icon(
-                                e.icon,
+                                e.value.icon,
                                 color: const Color(0xff0055c3),
                               ),
                             ),
                           )
                           .toList(),
-                      const SideMenuItemDataDivider(divider: Divider()),
-                      const SideMenuItemDataTitle(title: 'Account'),
+                      SideMenuItemDataDivider(divider: const Divider()),
+                      SideMenuItemDataTitle(title: 'Account'),
                       ..._accountItems
+                          .asMap()
+                          .entries
                           .map(
                             (e) => SideMenuItemDataTile(
-                              isSelected: false,
+                              //isSelected: false,
                               onTap: () {},
-                              title: e.name,
+                              title: e.value.name,
                               icon: Icon(
-                                e.icon,
+                                e.value.icon,
                                 color: const Color(0xff8e8e8e),
                               ),
                               badgeContent: const Text(

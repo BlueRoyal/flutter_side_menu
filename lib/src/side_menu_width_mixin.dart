@@ -1,7 +1,7 @@
-import 'package:flutter_side_menu/src/utils/device_screen_type.dart';
-import 'package:flutter_side_menu/src/side_menu_mode.dart';
-import 'package:flutter_side_menu/src/side_menu_priority.dart';
-import 'package:flutter_side_menu/src/utils/constants.dart';
+import "package:flutter_side_menu/src/utils/device_screen_type.dart";
+import "package:flutter_side_menu/src/side_menu_mode.dart";
+import "package:flutter_side_menu/src/side_menu_priority.dart";
+import "package:flutter_side_menu/src/utils/constants.dart";
 
 mixin SideMenuWidthMixin {
   late SideMenuMode mode;

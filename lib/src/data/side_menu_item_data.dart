@@ -1,17 +1,20 @@
-import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/src/utils/constants.dart';
+import "package:badges/badges.dart";
+import "package:flutter/material.dart";
+import "package:flutter_side_menu/src/utils/constants.dart";
 
 abstract class SideMenuItemData {
-  const SideMenuItemData();
+  const SideMenuItemData({required this.key});
+  final Key key;
+
+  Key get mykey => key;
 }
 
 class SideMenuItemDataTile extends SideMenuItemData {
-  const SideMenuItemDataTile({
-    required this.isSelected,
-    required this.onTap,
+  SideMenuItemDataTile({
+    Key? key,
+    this.onTap,
     this.icon,
-    this.title,
+    required this.title,
     this.titleStyle,
     this.selectedTitleStyle,
     this.tooltip,
@@ -31,13 +34,13 @@ class SideMenuItemDataTile extends SideMenuItemData {
     this.badgeStyle,
     this.children,
   })  : assert(itemHeight >= 0.0),
-        assert(icon != null || title != null),
-        super();
+        assert(icon != null),
+        super(key: key ?? ValueKey(title));
 
-  final bool isSelected, hasSelectedLine;
-  final void Function() onTap;
+  final bool hasSelectedLine;
+  final void Function()? onTap;
   final Size selectedLineSize;
-  final String? title;
+  final String title;
   final TextStyle? titleStyle;
   final TextStyle? selectedTitleStyle;
   final String? tooltip;
@@ -50,17 +53,16 @@ class SideMenuItemDataTile extends SideMenuItemData {
   final EdgeInsetsDirectional margin;
   final BorderRadiusGeometry? borderRadius;
   final List<SideMenuItemDataTile>? children;
-  final Color? hoverColor,
-      highlightSelectedColor;
+  final Color? hoverColor, highlightSelectedColor;
 }
 
 class SideMenuItemDataTitle extends SideMenuItemData {
-  const SideMenuItemDataTitle( {
+  SideMenuItemDataTitle({
     required this.title,
     this.titleStyle,
     this.textAlign,
     this.padding = Constants.itemMargin,
-  }) : super();
+  }) : super(key: ValueKey(title));
 
   final String title;
   final TextStyle? titleStyle;
@@ -69,10 +71,10 @@ class SideMenuItemDataTitle extends SideMenuItemData {
 }
 
 class SideMenuItemDataDivider extends SideMenuItemData {
-  const SideMenuItemDataDivider({
+  SideMenuItemDataDivider({
     required this.divider,
     this.padding = Constants.itemMargin,
-  }) : super();
+  }) : super(key: ValueKey(divider));
 
   final Divider divider;
   final EdgeInsetsDirectional padding;

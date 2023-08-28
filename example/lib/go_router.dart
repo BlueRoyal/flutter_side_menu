@@ -57,7 +57,7 @@ class AppScaffold extends StatelessWidget {
                 header: const Text('Header'),
                 items: [
                   SideMenuItemDataTile(
-                    isSelected: selectedIndex == 0,
+                    //   isSelected: selectedIndex == 0,
                     onTap: () => _onItemTapped(0, context),
                     title: 'Home',
                     icon: Icon(
@@ -68,7 +68,7 @@ class AppScaffold extends StatelessWidget {
                     ),
                   ),
                   SideMenuItemDataTile(
-                    isSelected: selectedIndex == 1,
+                    //  isSelected: selectedIndex == 1,
                     onTap: () => _onItemTapped(1, context),
                     title: 'Setting',
                     icon: Icon(

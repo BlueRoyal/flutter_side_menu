@@ -1,14 +1,14 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/src/data/side_menu_item_data.dart';
+import "package:auto_size_text/auto_size_text.dart";
+import "package:flutter/material.dart";
+import "package:flutter_side_menu/flutter_side_menu.dart";
+import "package:flutter_side_menu/src/data/side_menu_item_data.dart";
 
 class SideMenuItemTitle extends StatelessWidget {
-  const SideMenuItemTitle({
+  SideMenuItemTitle({
     Key? key,
     required this.data,
-  }) : super(key: key);
+  }) : super(key: key ?? ValueKey(data.title));
   final SideMenuItemDataTitle data;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,8 +20,7 @@ class SideMenuItemTitle extends StatelessWidget {
   Widget _title({
     required BuildContext context,
   }) {
-    final TextStyle? titleStyle =
-        data.titleStyle ?? Theme.of(context).textTheme.bodyLarge;
+    final titleStyle = data.titleStyle ?? Theme.of(context).textTheme.bodyLarge;
     return AutoSizeText(
       data.title,
       style: titleStyle,

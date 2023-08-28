@@ -1,20 +1,23 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:badges/badges.dart' as badges;
-import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/src/data/side_menu_item_data.dart';
-import 'package:flutter_side_menu/src/utils/constants.dart';
+import "package:auto_size_text/auto_size_text.dart";
+import "package:badges/badges.dart" as badges;
+import "package:flutter/material.dart";
+import "package:flutter_side_menu/flutter_side_menu.dart";
+import "package:flutter_side_menu/src/provider/SideMenuProvider.dart";
+import "package:flutter_side_menu/src/utils/constants.dart";
+import "package:provider/provider.dart";
 
 class SideMenuItemTile extends StatefulWidget {
-  const SideMenuItemTile({
+  SideMenuItemTile({
     Key? key,
     required this.isOpen,
     required this.minWidth,
     required this.data,
-  }) : super(key: key);
+    this.onTileSelected,
+  }) : super(key: key ?? ValueKey(data.title));
   final SideMenuItemDataTile data;
   final bool isOpen;
   final double minWidth;
-
+  final Function(SideMenuItemDataTile tile)? onTileSelected;
   @override
   State<SideMenuItemTile> createState() => _SideMenuItemTileState();
 }
@@ -25,14 +28,20 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
     return _buildContent(context);
   }
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget _buildContent(BuildContext context) {
+    final provider = Provider.of<SideMenuProvider>(context);
     if (widget.data.children?.isEmpty ?? true) {
       return Container(
         height: 50,
         margin: widget.data.margin,
         decoration: ShapeDecoration(
           shape: shape(context),
-          color: widget.data.isSelected
+          color: provider.isSelected(widget.key!)
               ? widget.data.highlightSelectedColor ??
                   Theme.of(context).colorScheme.secondaryContainer
               : null,
@@ -42,7 +51,11 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
           clipBehavior: Clip.hardEdge,
           shape: shape(context),
           child: InkWell(
-            onTap: widget.data.onTap,
+            onTap: () {
+              provider.selectTile(widget.key!, widget.data);
+              widget.data.onTap!();
+              widget.onTileSelected?.call(widget.data);
+            },
             hoverColor: widget.data.hoverColor,
             child: _createView(context: context),
           ),
@@ -50,21 +63,34 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
       );
     } else {
       return ExpansionTile(
-          leading: widget.data.icon,
-          shape: shape(context),
-          textColor: Colors
-              .white, 
-          title: _title(context: context),
-          children: widget.data.children!
-              .map(
-                (child) => SideMenuItemTile(
+        initiallyExpanded: provider.shouldExpand(widget.data.children!),
+        onExpansionChanged: (value) {
+          provider.selectTile(widget.key!, widget.data);
+          widget.onTileSelected?.call(widget.data);
+        },
+        leading: widget.data.icon,
+        shape: shape(context),
+        textColor: Colors.white,
+        title: _title(context: context),
+        children: widget.data.children!
+            .asMap()
+            .entries
+            .map(
+              (child) => Container(
+                color: provider.isSelected(child.value.mykey)
+                    ? widget.data.highlightSelectedColor ??
+                        Theme.of(context).colorScheme.secondaryContainer
+                    : null,
+                child: SideMenuItemTile(
+                  onTileSelected: widget.onTileSelected,
                   isOpen: widget.isOpen,
                   minWidth: widget.minWidth,
-                  data: child,
+                  data: child.value,
                 ),
-              )
-              .toList(),
-        );
+              ),
+            )
+            .toList(),
+      );
     }
   }
 
@@ -76,16 +102,18 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
             : RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
   }
 
-  Color getSelectedColor() {
-    return widget.data.isSelected
+  Color getSelectedColor(BuildContext context) {
+    final provider = Provider.of<SideMenuProvider>(context, listen: false);
+    return provider.isSelected(widget.key!)
         ? widget.data.selectedTitleStyle?.color ??
             Theme.of(context).colorScheme.onSecondaryContainer
         : widget.data.titleStyle?.color ??
             Theme.of(context).colorScheme.onSurfaceVariant;
   }
 
-  Widget? getSelectedIcon() {
-    return widget.data.isSelected && widget.data.selectedIcon != null
+  Widget? getSelectedIcon(BuildContext context) {
+    final provider = Provider.of<SideMenuProvider>(context, listen: false);
+    return provider.isSelected(widget.key!) && widget.data.selectedIcon != null
         ? widget.data.selectedIcon
         : widget.data.icon;
   }
@@ -100,8 +128,8 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
         ),
       ),
     );
-
-    return widget.data.isSelected && widget.data.hasSelectedLine
+    final provider = Provider.of<SideMenuProvider>(context, listen: false);
+    return provider.isSelected(widget.key!) && widget.data.hasSelectedLine
         ? _hasSelectedLine(child: content)
         : content;
   }
@@ -136,8 +164,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
     required BuildContext context,
   }) {
     final hasIcon = widget.data.icon != null;
-    final hasTitle = widget.data.title != null;
-    if (hasIcon && hasTitle) {
+    if (hasIcon) {
       return Row(
         children: [
           _icon(),
@@ -169,8 +196,8 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
             child: IconTheme(
               data: Theme.of(context)
                   .iconTheme
-                  .copyWith(color: getSelectedColor()),
-              child: getSelectedIcon()!,
+                  .copyWith(color: getSelectedColor(context)),
+              child: getSelectedIcon(context)!,
             ),
           )
         : const SizedBox.shrink();
@@ -179,25 +206,26 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
   Widget _title({
     required BuildContext context,
   }) {
-    final TextStyle? titleStyle =
+    final titleStyle =
         widget.data.titleStyle ?? Theme.of(context).textTheme.bodyLarge;
-    final TextStyle? selectedTitleStyle =
+    final selectedTitleStyle =
         widget.data.selectedTitleStyle ?? Theme.of(context).textTheme.bodyLarge;
+    final provider = Provider.of<SideMenuProvider>(context, listen: false);
     return AutoSizeText(
-      widget.data.title!,
-      style: widget.data.isSelected
-          ? selectedTitleStyle?.copyWith(color: getSelectedColor())
-          : titleStyle?.copyWith(color: getSelectedColor()),
+      widget.data.title,
+      style: provider.isSelected(widget.key!)
+          ? selectedTitleStyle?.copyWith(color: getSelectedColor(context))
+          : titleStyle?.copyWith(color: getSelectedColor(context)),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
   }
 
-  Widget _selectedLine() {
+  Widget _selectedLine(BuildContext context) {
     return SizedBox.fromSize(
       size: widget.data.selectedLineSize,
       child: ColoredBox(
-        color: getSelectedColor(),
+        color: getSelectedColor(context),
       ),
     );
   }
@@ -209,7 +237,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
       alignment: AlignmentDirectional.centerStart,
       children: [
         child,
-        _selectedLine(),
+        _selectedLine(context),
       ],
     );
   }

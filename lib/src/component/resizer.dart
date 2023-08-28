@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/src/data/resizer_data.dart';
-import 'package:flutter_side_menu/src/utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:flutter_side_menu/src/data/resizer_data.dart";
+import "package:flutter_side_menu/src/utils/constants.dart";
 
 class Resizer extends StatefulWidget {
   const Resizer({
-    Key? key,
+    super.key,
     required this.onPanUpdate,
     ResizerData? data,
-  })  : data = data ?? const ResizerData(),
-        super(key: key);
+  }) : data = data ?? const ResizerData();
 
   final Function(DragUpdateDetails details) onPanUpdate;
   final ResizerData data;

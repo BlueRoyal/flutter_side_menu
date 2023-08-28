@@ -11,12 +11,12 @@ class SideMenuBuilderData {
 
   @override
   String toString() {
-    return 'SideMenuBuilderData'
-        '{'
-        'isOpen: $isOpen'
-        'minWidth: $minWidth,'
-        'maxWidth: $maxWidth,'
-        'currentWidth: $currentWidth,'
-        '}';
+    return "SideMenuBuilderData"
+        "{"
+        "isOpen: $isOpen"
+        "minWidth: $minWidth,"
+        "maxWidth: $maxWidth,"
+        "currentWidth: $currentWidth,"
+        "}";
   }
 }

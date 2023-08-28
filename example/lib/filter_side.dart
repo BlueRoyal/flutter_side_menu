@@ -43,17 +43,17 @@ class FilterSide extends StatelessWidget {
                 thickness: 1,
                 color: Colors.grey.shade300,
               ),
-              SideMenu(mode: SideMenuMode.open,
-                 position: SideMenuPosition.right,
+              SideMenu(
+                mode: SideMenuMode.open,
+                position: SideMenuPosition.right,
                 hasResizer: false,
                 hasResizerToggle: false,
-
                 builder: (data) {
                   return SideMenuData(
                     header: Column(
                       children: [
-                        ListTile(
-                          title: const Text('View Option',
+                        const ListTile(
+                          title: Text('View Option',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                         ),
@@ -66,52 +66,52 @@ class FilterSide extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: ListTile(
-                            title: const Text('Default View'),
+                          child: const ListTile(
+                            title: Text('Default View'),
                           ),
                         ),
-                       ListTile(
-                         leading: const Icon(Icons.filter_alt_outlined),
-                          title: const Text('Filter'),
-                         trailing: const Icon(Icons.arrow_forward_ios),
-                       ),
-                        ListTile(
-                          leading: const Icon(Icons.sort),
-                          title: const Text('Sort'),
-                          trailing: const Icon(Icons.arrow_forward_ios),
+                        const ListTile(
+                          leading: Icon(Icons.filter_alt_outlined),
+                          title: Text('Filter'),
+                          trailing: Icon(Icons.arrow_forward_ios),
                         ),
-                        ListTile(
-                          leading: const Icon(Icons.access_alarm),
-                          title: const Text('Alarm'),
-                          trailing: const Icon(Icons.arrow_forward_ios),
+                        const ListTile(
+                          leading: Icon(Icons.sort),
+                          title: Text('Sort'),
+                          trailing: Icon(Icons.arrow_forward_ios),
                         ),
-                        Divider()
+                        const ListTile(
+                          leading: Icon(Icons.access_alarm),
+                          title: Text('Alarm'),
+                          trailing: Icon(Icons.arrow_forward_ios),
+                        ),
+                        const Divider()
                       ],
                     ),
                     items: [
                       ..._navItems
+                          .asMap()
+                          .entries
                           .map(
                             (e) => SideMenuItemDataTile(
-                              isSelected: e.name == 'Item 1',
-                              onTap: () {},
-                              title: e.name,
+                              title: e.value.name,
                               icon: Icon(
-                                e.icon,
+                                e.value.icon,
                                 color: const Color(0xff0055c3),
                               ),
                             ),
                           )
                           .toList(),
-                      const SideMenuItemDataDivider(divider: Divider()),
-                      const SideMenuItemDataTitle(title: 'Account'),
+                      SideMenuItemDataDivider(divider: const Divider()),
+                      SideMenuItemDataTitle(title: 'Account'),
                       ..._accountItems
+                          .asMap()
+                          .entries
                           .map(
                             (e) => SideMenuItemDataTile(
-                              isSelected: false,
-                              onTap: () {},
-                              title: e.name,
+                              title: e.value.name,
                               icon: Icon(
-                                e.icon,
+                                e.value.icon,
                                 color: const Color(0xff8e8e8e),
                               ),
                               badgeContent: const Text(

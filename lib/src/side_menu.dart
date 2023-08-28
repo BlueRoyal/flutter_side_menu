@@ -1,17 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/src/component/resizer.dart';
-import 'package:flutter_side_menu/src/component/resizer_toggle.dart';
-import 'package:flutter_side_menu/src/data/resizer_data.dart';
-import 'package:flutter_side_menu/src/data/resizer_toggle_data.dart';
-import 'package:flutter_side_menu/src/data/side_menu_data.dart';
-import 'package:flutter_side_menu/src/data/side_menu_builder_data.dart';
-import 'package:flutter_side_menu/src/side_menu_body.dart';
-import 'package:flutter_side_menu/src/side_menu_controller.dart';
-import 'package:flutter_side_menu/src/side_menu_mode.dart';
-import 'package:flutter_side_menu/src/side_menu_position.dart';
-import 'package:flutter_side_menu/src/side_menu_priority.dart';
-import 'package:flutter_side_menu/src/side_menu_width_mixin.dart';
-import 'package:flutter_side_menu/src/utils/constants.dart';
+import "package:flutter/material.dart";
+import "package:flutter_side_menu/flutter_side_menu.dart";
+import "package:flutter_side_menu/src/component/resizer.dart";
+import "package:flutter_side_menu/src/component/resizer_toggle.dart";
+import "package:flutter_side_menu/src/data/side_menu_builder_data.dart";
+import "package:flutter_side_menu/src/provider/SideMenuProvider.dart";
+import "package:flutter_side_menu/src/side_menu_body.dart";
+import "package:flutter_side_menu/src/side_menu_width_mixin.dart";
+import "package:flutter_side_menu/src/utils/constants.dart";
+import "package:provider/provider.dart";
 
 /// Signature for the `builder` function which take the `SideMenuBuilderData`
 /// is responsible for returning a widget which is to be rendered.
@@ -19,7 +15,7 @@ typedef SideMenuBuilder = SideMenuData Function(SideMenuBuilderData data);
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
-    Key? key,
+    super.key,
     required this.builder,
     this.controller,
     this.mode = SideMenuMode.auto,
@@ -32,12 +28,12 @@ class SideMenu extends StatefulWidget {
     this.resizerData,
     this.resizerToggleData,
     this.backgroundColor,
+    this.onTileSelected,
   })  : assert(minWidth >= 0.0),
         assert(maxWidth > 0.0),
         assert(priority == SideMenuPriority.sizer ? hasResizer : true),
         assert(resizerData != null ? hasResizer : true),
-        assert(resizerToggleData != null ? hasResizerToggle : true),
-        super(key: key);
+        assert(resizerToggleData != null ? hasResizerToggle : true);
 
   /// The [builder] function which will be invoked on each widget build.
   /// The [builder] takes the `SideMenuBuilderData` and must return
@@ -127,6 +123,8 @@ class SideMenu extends StatefulWidget {
   /// color.
   final Color? backgroundColor;
 
+  final Function(SideMenuItemDataTile tile)? onTileSelected;
+
   @override
   State<SideMenu> createState() => _SideMenuState();
 }
@@ -194,7 +192,12 @@ class _SideMenuState extends State<SideMenu> with SideMenuWidthMixin {
   }
 
   @override
-  Widget build(BuildContext context) => _createView();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => SideMenuProvider(),
+      child: _createView(),
+    );
+  }
 
   Widget _createView() {
     final size = MediaQuery.of(context).size;
@@ -227,6 +230,7 @@ class _SideMenuState extends State<SideMenu> with SideMenuWidthMixin {
         maxWidth: widget.maxWidth,
       ),
       child: SideMenuBody(
+        onTileSelected: widget.onTileSelected,
         isOpen: _currentWidth != widget.minWidth,
         minWidth: widget.minWidth,
         data: _builder(),
@@ -286,7 +290,7 @@ class _SideMenuState extends State<SideMenu> with SideMenuWidthMixin {
       data: widget.resizerToggleData,
       rightArrow: _currentWidth == widget.minWidth,
       leftPosition: widget.position == SideMenuPosition.left,
-      onTap: () => _toggleMenu(),
+      onTap: _toggleMenu,
     );
   }
 
