@@ -74,6 +74,27 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ),
                         //isSelected: _currentIndex == 2,
+                        title: "Test",
+                        icon: const Icon(Icons.play_arrow),
+                        children: [
+                          SideMenuItemDataTile(
+                            //isSelected: false,
+                              onTap: () {},
+                              title: 'Test 2',
+                              icon: const Icon(
+                                Icons.home,
+                                color: Color(0xff0055c3),
+                              )),
+                        ]),
+                    SideMenuItemDataTile(
+                        badgeContent: const Text(
+                          '23',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.white,
+                          ),
+                        ),
+                        //isSelected: _currentIndex == 2,
                         title: '1',
                         icon: const Icon(Icons.play_arrow),
                         children: [
