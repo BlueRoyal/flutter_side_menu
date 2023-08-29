@@ -5,6 +5,29 @@ void main() {
   runApp(const MyApp());
 }
 
+enum MenuItemId {
+  sectionHeader,
+  item1,
+  item2,
+  account,
+  test,
+  test2,
+  one,
+  one_one,
+  two,
+  two_one,
+  two_one_one,
+  two_one_two,
+  two_one_three,
+  three,
+  three_one,
+  three_two,
+  three_two_one,
+  three_two_two,
+  three_two_three,
+  footer
+}
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -28,7 +51,8 @@ class _MyAppState extends State<MyApp> {
           children: [
             SideMenu(
               onTileSelected: (tile) {
-                print(tile.title);
+              //  print(tile.title);
+                print(tile.id);
               },
               controller: _controller,
               backgroundColor: Colors.blueGrey,
@@ -38,21 +62,26 @@ class _MyAppState extends State<MyApp> {
                   header: const Text("Header"),
                   items: [
                     SideMenuItemDataTitle(title: 'Section Header'),
+                    SideMenuItemDataTitle(
+                      title: 'Section Header',
+                    ),
                     SideMenuItemDataTile(
-                        title: 'Item 1',
-                        hoverColor: Colors.blue,
-                        titleStyle: const TextStyle(color: Colors.white),
-                        icon: const Icon(Icons.home_outlined),
-                        selectedIcon: const Icon(Icons.home),
-                        badgeContent: const Text(
-                          '23',
-                          style: TextStyle(
-                            fontSize: 8,
-                            color: Colors.white,
-                          ),
-                        )),
+                      id: MenuItemId.item1,
+                      title: 'Item 1',
+                      hoverColor: Colors.blue,
+                      titleStyle: const TextStyle(color: Colors.white),
+                      icon: const Icon(Icons.home_outlined),
+                      selectedIcon: const Icon(Icons.home),
+                      badgeContent: const Text(
+                        '23',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                     SideMenuItemDataTile(
-                      //isSelected: _currentIndex == 1,
+                      id: MenuItemId.item2,
                       title: 'Item 2',
                       selectedTitleStyle: const TextStyle(
                           fontWeight: FontWeight.w700, color: Colors.yellow),
@@ -66,151 +95,156 @@ class _MyAppState extends State<MyApp> {
                       textAlign: TextAlign.center,
                     ),
                     SideMenuItemDataTile(
-                        badgeContent: const Text(
-                          '23',
-                          style: TextStyle(
-                            fontSize: 8,
-                            color: Colors.white,
+                      id: MenuItemId.test,
+                      badgeContent: const Text(
+                        '23',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: "Test",
+                      icon: const Icon(Icons.play_arrow),
+                      children: [
+                        SideMenuItemDataTile(
+                          id: MenuItemId.test2,
+                          onTap: () {},
+                          title: 'Test 2',
+                          icon: const Icon(
+                            Icons.home,
+                            color: Color(0xff0055c3),
                           ),
                         ),
-                        //isSelected: _currentIndex == 2,
-                        title: "Test",
-                        icon: const Icon(Icons.play_arrow),
-                        children: [
-                          SideMenuItemDataTile(
-                            //isSelected: false,
-                              onTap: () {},
-                              title: 'Test 2',
-                              icon: const Icon(
-                                Icons.home,
-                                color: Color(0xff0055c3),
-                              )),
-                        ]),
+                      ],
+                    ),
                     SideMenuItemDataTile(
-                        badgeContent: const Text(
-                          '23',
-                          style: TextStyle(
-                            fontSize: 8,
-                            color: Colors.white,
-                          ),
+                      id: MenuItemId.one,
+                      badgeContent: const Text(
+                        '23',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Colors.white,
                         ),
-                        //isSelected: _currentIndex == 2,
-                        title: '1',
-                        icon: const Icon(Icons.play_arrow),
-                        children: [
-                          SideMenuItemDataTile(
-                              //isSelected: false,
+                      ),
+                      title: '1',
+                      icon: const Icon(Icons.play_arrow),
+                      children: [
+                        SideMenuItemDataTile(
+                          id: MenuItemId.one_one,
+                          onTap: () {},
+                          title: '1.1',
+                          icon: const Icon(
+                            Icons.home,
+                            color: Color(0xff0055c3),
+                          ),
+                          children: [
+                            SideMenuItemDataTile(
+                              id: MenuItemId.two,
                               onTap: () {},
-                              title: '1.1',
+                              title: '2',
                               icon: const Icon(
                                 Icons.home,
                                 color: Color(0xff0055c3),
                               ),
-                              children: [
-                                SideMenuItemDataTile(
-                                    //isSelected: false,
-                                    onTap: () {},
-                                    title: '2',
-                                    icon: const Icon(
-                                      Icons.home,
-                                      color: Color(0xff0055c3),
-                                    )),
-                                SideMenuItemDataTile(
-                                  //isSelected: false,
-                                  onTap: () {},
-                                  title: '2.1',
-                                  icon: const Icon(
-                                    Icons.table_chart,
-                                    color: Color(0xff0055c3),
-                                  ),
-                                  children: [
-                                    SideMenuItemDataTile(
-                                      //isSelected: false,
-                                      onTap: () {},
-                                      title: '2.1.1',
-                                      icon: const Icon(
-                                        Icons.home,
-                                        color: Color(0xff0055c3),
-                                      ),
-                                    ),
-                                    SideMenuItemDataTile(
-                                      //isSelected: false,
-                                      onTap: () {},
-                                      title: '2.1.2',
-                                      icon: const Icon(
-                                        Icons.table_chart,
-                                        color: Color(0xff0055c3),
-                                      ),
-                                    ),
-                                    SideMenuItemDataTile(
-                                      //isSelected: false,
-                                      onTap: () {},
-                                      title: '2.1.3',
-                                      icon: const Icon(
-                                        Icons.table_chart,
-                                        color: Color(0xff0055c3),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SideMenuItemDataTile(
-                                  // isSelected: false,
-                                  onTap: () {},
-                                  title: "3",
-                                  icon: const Icon(
-                                    Icons.table_chart,
-                                    color: Color(0xff0055c3),
-                                  ),
-                                ),
-                              ]),
-                          SideMenuItemDataTile(
-                            //  isSelected: false,
-                            onTap: () {},
-                            title: '3.1',
-                            icon: const Icon(
-                              Icons.table_chart,
-                              color: Color(0xff0055c3),
                             ),
-                          ),
-                          SideMenuItemDataTile(
-
-                              //   isSelected: false,
+                            SideMenuItemDataTile(
+                              id: MenuItemId.two_one,
                               onTap: () {},
-                              title: '3.2',
+                              title: '2.1',
                               icon: const Icon(
                                 Icons.table_chart,
                                 color: Color(0xff0055c3),
                               ),
                               children: [
                                 SideMenuItemDataTile(
-                                  //isSelected: false,
+                                  id: MenuItemId.two_one_one,
                                   onTap: () {},
-                                  title: '3.2.1',
+                                  title: '2.1.1',
                                   icon: const Icon(
                                     Icons.home,
                                     color: Color(0xff0055c3),
                                   ),
                                 ),
                                 SideMenuItemDataTile(
-                                  //isSelected: false,
+                                  id: MenuItemId.two_one_two,
                                   onTap: () {},
-                                  title: '3.2.2',
+                                  title: '2.1.2',
                                   icon: const Icon(
                                     Icons.table_chart,
                                     color: Color(0xff0055c3),
                                   ),
                                 ),
                                 SideMenuItemDataTile(
-                                  //isSelected: false,
+                                  id: MenuItemId.two_one_three,
                                   onTap: () {},
-                                  title: '3.2.3',
+                                  title: '2.1.3',
                                   icon: const Icon(
                                     Icons.table_chart,
                                     color: Color(0xff0055c3),
                                   ),
                                 ),
-                              ]),
-                        ]),
+                              ],
+                            ),
+                            SideMenuItemDataTile(
+                              id: MenuItemId.three,
+                              onTap: () {},
+                              title: "3",
+                              icon: const Icon(
+                                Icons.table_chart,
+                                color: Color(0xff0055c3),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SideMenuItemDataTile(
+                          id: MenuItemId.three_one,
+                          onTap: () {},
+                          title: '3.1',
+                          icon: const Icon(
+                            Icons.table_chart,
+                            color: Color(0xff0055c3),
+                          ),
+                        ),
+                        SideMenuItemDataTile(
+                          id: MenuItemId.three_two,
+                          onTap: () {},
+                          title: '3.2',
+                          icon: const Icon(
+                            Icons.table_chart,
+                            color: Color(0xff0055c3),
+                          ),
+                          children: [
+                            SideMenuItemDataTile(
+                              id: MenuItemId.three_two_one,
+                              onTap: () {},
+                              title: '3.2.1',
+                              icon: const Icon(
+                                Icons.home,
+                                color: Color(0xff0055c3),
+                              ),
+                            ),
+                            SideMenuItemDataTile(
+                              id: MenuItemId.three_two_two,
+                              onTap: () {},
+                              title: '3.2.2',
+                              icon: const Icon(
+                                Icons.table_chart,
+                                color: Color(0xff0055c3),
+                              ),
+                            ),
+                            SideMenuItemDataTile(
+                              id: MenuItemId.three_two_three,
+                              onTap: () {},
+                              title: '3.2.3',
+                              icon: const Icon(
+                                Icons.table_chart,
+                                color: Color(0xff0055c3),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                   footer: const Text('Footer'),
                 );

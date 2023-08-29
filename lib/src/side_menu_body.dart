@@ -28,6 +28,7 @@ class SideMenuBody extends StatelessWidget {
               final item = data.items![index];
               if (item is SideMenuItemDataTile) {
                 return SideMenuItemTile(
+                  id: item.id,
                   onTileSelected: onTileSelected,
                   minWidth: minWidth,
                   isOpen: isOpen,

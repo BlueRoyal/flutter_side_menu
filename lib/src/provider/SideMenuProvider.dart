@@ -2,10 +2,10 @@ import "package:flutter/material.dart";
 import "package:flutter_side_menu/flutter_side_menu.dart";
 
 class SideMenuProvider with ChangeNotifier {
-  final List<Key> _selectedTileIds = [];
+  final List<dynamic> _selectedTileIds = [];
   final List<SideMenuItemDataTile> _titles = [];
 
-  void selectTile(Key id, SideMenuItemDataTile data) {
+  void selectTile(dynamic id, SideMenuItemDataTile data) {
     _selectedTileIds.clear();
     _titles.clear();
     _selectedTileIds.add(id);
@@ -13,20 +13,20 @@ class SideMenuProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isSelected(Key id) {
+  bool isSelected(dynamic id) {
     return _selectedTileIds.contains(id);
   }
 
   bool shouldExpand(List<SideMenuItemDataTile> children) {
     for (final child in children) {
-      if (_selectedTileIds.contains(child.key)) {
+      if (_selectedTileIds.contains(child.id)) {
         return true;
       }
     }
     return false;
   }
 
-  Key getSelectedTile() {
+  dynamic getSelectedTile() {
     return _selectedTileIds.first;
   }
 
@@ -34,7 +34,7 @@ class SideMenuProvider with ChangeNotifier {
     return _titles.first;
   }
 
-  List<Key> get selectedTileIds {
+  List<dynamic> get selectedTileIds {
     return _selectedTileIds;
   }
 }

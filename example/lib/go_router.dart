@@ -7,7 +7,10 @@ const Color _unSelectedColor = Color(0xff8e8e8e);
 void main() {
   runApp(MyApp());
 }
-
+enum MenuItemId {
+  home,
+  setting,
+}
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
@@ -57,6 +60,7 @@ class AppScaffold extends StatelessWidget {
                 header: const Text('Header'),
                 items: [
                   SideMenuItemDataTile(
+                    id:MenuItemId.home,
                     //   isSelected: selectedIndex == 0,
                     onTap: () => _onItemTapped(0, context),
                     title: 'Home',
@@ -68,6 +72,7 @@ class AppScaffold extends StatelessWidget {
                     ),
                   ),
                   SideMenuItemDataTile(
+                    id:MenuItemId.setting,
                     //  isSelected: selectedIndex == 1,
                     onTap: () => _onItemTapped(1, context),
                     title: 'Setting',

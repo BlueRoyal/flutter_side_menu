@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 
+enum MenuItemId {
+  name,
+  setting,
+  info,
+  access,
+  accessibility,
+  ac
+}
+
 class NavigationSide extends StatelessWidget {
   const NavigationSide({Key? key}) : super(key: key);
 
   final _navItems = const [
-    NavItemModel(name: 'Item 1', icon: Icons.home),
-    NavItemModel(name: 'Item 2', icon: Icons.settings),
-    NavItemModel(name: 'Item 3', icon: Icons.info),
+    NavItemModel(name: 'Item 1', icon: Icons.home, enu: MenuItemId.name),
+    NavItemModel(name: 'Item 2', icon: Icons.settings, enu: MenuItemId.setting),
+    NavItemModel(name: 'Item 3', icon: Icons.info, enu: MenuItemId.info),
   ];
   final _accountItems = const [
-    NavItemModel(name: 'Item 4', icon: Icons.access_alarms_sharp),
-    NavItemModel(name: 'Item 5', icon: Icons.accessibility_new_sharp),
-    NavItemModel(name: 'Item 6', icon: Icons.ac_unit_sharp),
+    NavItemModel(name: 'Item 4', icon: Icons.access_alarms_sharp, enu: MenuItemId.access),
+    NavItemModel(name: 'Item 5', icon: Icons.accessibility_new_sharp,enu: MenuItemId.accessibility),
+    NavItemModel(name: 'Item 6', icon: Icons.ac_unit_sharp,enu: MenuItemId.ac),
   ];
 
   @override
@@ -58,7 +67,7 @@ class NavigationSide extends StatelessWidget {
                           .entries
                           .map(
                             (e) => SideMenuItemDataTile(
-                              // isSelected: e.value.name == 'Item 1',
+                              id: e.value.enu,
                               onTap: () {},
                               title: e.value.name,
                               icon: Icon(
@@ -75,7 +84,7 @@ class NavigationSide extends StatelessWidget {
                           .entries
                           .map(
                             (e) => SideMenuItemDataTile(
-                              //isSelected: false,
+                              id: e.value.enu,
                               onTap: () {},
                               title: e.value.name,
                               icon: Icon(
@@ -127,8 +136,10 @@ class NavItemModel {
   const NavItemModel({
     required this.name,
     required this.icon,
+    required this.enu,
   });
 
   final String name;
+  final dynamic enu;
   final IconData icon;
 }

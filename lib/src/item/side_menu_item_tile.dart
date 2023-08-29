@@ -7,17 +7,18 @@ import "package:flutter_side_menu/src/utils/constants.dart";
 import "package:provider/provider.dart";
 
 class SideMenuItemTile extends StatefulWidget {
-  SideMenuItemTile({
-    Key? key,
+  const SideMenuItemTile({
+    super.key,
     required this.isOpen,
     required this.minWidth,
     required this.data,
-    this.onTileSelected,
-  }) : super(key: key ?? ValueKey(data.title));
+    this.onTileSelected, required this.id,
+  });
   final SideMenuItemDataTile data;
   final bool isOpen;
   final double minWidth;
   final Function(SideMenuItemDataTile tile)? onTileSelected;
+  final dynamic id;
   @override
   State<SideMenuItemTile> createState() => _SideMenuItemTileState();
 }
@@ -41,7 +42,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
         margin: widget.data.margin,
         decoration: ShapeDecoration(
           shape: shape(context),
-          color: provider.isSelected(widget.key!)
+          color: provider.isSelected(widget.id)
               ? widget.data.highlightSelectedColor ??
                   Theme.of(context).colorScheme.secondaryContainer
               : null,
@@ -52,7 +53,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
           shape: shape(context),
           child: InkWell(
             onTap: () {
-              provider.selectTile(widget.key!, widget.data);
+              provider.selectTile(widget.id, widget.data);
               widget.data.onTap?.call();
               widget.onTileSelected?.call(widget.data);
             },
@@ -65,7 +66,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
       return ExpansionTile(
         initiallyExpanded: provider.shouldExpand(widget.data.children!),
         onExpansionChanged: (value) {
-          provider.selectTile(widget.key!, widget.data);
+          provider.selectTile(widget.id, widget.data);
             widget.data.onTap?.call();
           widget.onTileSelected?.call(widget.data);
         },
@@ -83,6 +84,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
                         Theme.of(context).colorScheme.secondaryContainer
                     : null,
                 child: SideMenuItemTile(
+                  id: child.value.id,
                   onTileSelected: widget.onTileSelected,
                   isOpen: widget.isOpen,
                   minWidth: widget.minWidth,

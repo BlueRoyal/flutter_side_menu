@@ -5,8 +5,8 @@ import "package:flutter_side_menu/src/provider/SideMenuProvider.dart";
 import "package:provider/provider.dart";
 
 class SideMenuExpansionTile extends StatefulWidget {
-  SideMenuExpansionTile({
-    Key? key,
+  const SideMenuExpansionTile({
+    super.key,
     required this.data,
     required this.isOpen,
     required this.minWidth,
@@ -14,7 +14,7 @@ class SideMenuExpansionTile extends StatefulWidget {
     this.selectedColor,
     this.selectedHeaderColor,
     this.onTileSelected,
-  }) : super(key: key ?? ValueKey(data.title));
+  });
 
   final bool isOpen;
   final double minWidth;
@@ -93,6 +93,7 @@ class SideMenuExpansionTileState extends State<SideMenuExpansionTile> {
                       Theme.of(context).colorScheme.secondaryContainer
                   : null,
               child: SideMenuItemTile(
+                id: child.value.id,
                 onTileSelected: widget.onTileSelected,
                 isOpen: widget.isOpen,
                 minWidth: widget.minWidth,

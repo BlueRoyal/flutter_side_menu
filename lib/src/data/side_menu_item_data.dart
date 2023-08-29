@@ -10,8 +10,9 @@ abstract class SideMenuItemData {
 }
 
 class SideMenuItemDataTile extends SideMenuItemData {
-  SideMenuItemDataTile({
+  SideMenuItemDataTile( {
     Key? key,
+    required this.id,
     this.onTap,
     this.icon,
     required this.title,
@@ -37,6 +38,7 @@ class SideMenuItemDataTile extends SideMenuItemData {
         assert(icon != null),
         super(key: key ?? ValueKey(title));
 
+  final dynamic id;
   final bool hasSelectedLine;
   final void Function()? onTap;
   final Size selectedLineSize;

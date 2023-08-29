@@ -4,10 +4,10 @@ import "package:flutter_side_menu/flutter_side_menu.dart";
 import "package:flutter_side_menu/src/data/side_menu_item_data.dart";
 
 class SideMenuItemTitle extends StatelessWidget {
-  SideMenuItemTitle({
-    Key? key,
+  const SideMenuItemTitle({
+    super.key,
     required this.data,
-  }) : super(key: key ?? ValueKey(data.title));
+  });
   final SideMenuItemDataTitle data;
   @override
   Widget build(BuildContext context) {
