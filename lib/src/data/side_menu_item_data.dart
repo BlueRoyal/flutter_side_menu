@@ -3,10 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_side_menu/src/utils/constants.dart";
 
 abstract class SideMenuItemData {
-  const SideMenuItemData({required this.key});
-  final Key key;
-
-  Key get mykey => key;
+  const SideMenuItemData();
 }
 
 class SideMenuItemDataTile extends SideMenuItemData {
@@ -36,7 +33,7 @@ class SideMenuItemDataTile extends SideMenuItemData {
     this.children,
   })  : assert(itemHeight >= 0.0),
         assert(icon != null),
-        super(key: key ?? ValueKey(title));
+        super();
 
   final dynamic id;
   final bool hasSelectedLine;
@@ -64,7 +61,7 @@ class SideMenuItemDataTitle extends SideMenuItemData {
     this.titleStyle,
     this.textAlign,
     this.padding = Constants.itemMargin,
-  }) : super(key: ValueKey(title));
+  }) : super();
 
   final String title;
   final TextStyle? titleStyle;
@@ -76,7 +73,7 @@ class SideMenuItemDataDivider extends SideMenuItemData {
   SideMenuItemDataDivider({
     required this.divider,
     this.padding = Constants.itemMargin,
-  }) : super(key: ValueKey(divider));
+  }) : super();
 
   final Divider divider;
   final EdgeInsetsDirectional padding;

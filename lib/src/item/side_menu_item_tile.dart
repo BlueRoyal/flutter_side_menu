@@ -79,7 +79,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
             .entries
             .map(
               (child) => Container(
-                color: provider.isSelected(child.value.mykey)
+                color: provider.isSelected(child.value.id)
                     ? widget.data.highlightSelectedColor ??
                         Theme.of(context).colorScheme.secondaryContainer
                     : null,
@@ -107,7 +107,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
 
   Color getSelectedColor(BuildContext context) {
     final provider = Provider.of<SideMenuProvider>(context, listen: false);
-    return provider.isSelected(widget.key!)
+    return provider.isSelected(widget.id)
         ? widget.data.selectedTitleStyle?.color ??
             Theme.of(context).colorScheme.onSecondaryContainer
         : widget.data.titleStyle?.color ??
@@ -116,7 +116,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
 
   Widget? getSelectedIcon(BuildContext context) {
     final provider = Provider.of<SideMenuProvider>(context, listen: false);
-    return provider.isSelected(widget.key!) && widget.data.selectedIcon != null
+    return provider.isSelected(widget.id) && widget.data.selectedIcon != null
         ? widget.data.selectedIcon
         : widget.data.icon;
   }
@@ -132,7 +132,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
       ),
     );
     final provider = Provider.of<SideMenuProvider>(context, listen: false);
-    return provider.isSelected(widget.key!) && widget.data.hasSelectedLine
+    return provider.isSelected(widget.id) && widget.data.hasSelectedLine
         ? _hasSelectedLine(child: content)
         : content;
   }
@@ -216,7 +216,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
     final provider = Provider.of<SideMenuProvider>(context, listen: false);
     return AutoSizeText(
       widget.data.title,
-      style: provider.isSelected(widget.key!)
+      style: provider.isSelected(widget.id)
           ? selectedTitleStyle?.copyWith(color: getSelectedColor(context))
           : titleStyle?.copyWith(color: getSelectedColor(context)),
       maxLines: 1,

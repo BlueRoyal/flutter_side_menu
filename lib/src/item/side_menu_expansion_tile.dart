@@ -6,6 +6,7 @@ import "package:provider/provider.dart";
 
 class SideMenuExpansionTile extends StatefulWidget {
   const SideMenuExpansionTile({
+    required this.id,
     super.key,
     required this.data,
     required this.isOpen,
@@ -15,7 +16,7 @@ class SideMenuExpansionTile extends StatefulWidget {
     this.selectedHeaderColor,
     this.onTileSelected,
   });
-
+  final dynamic id;
   final bool isOpen;
   final double minWidth;
   final SideMenuItemDataTile data;
@@ -38,7 +39,7 @@ class SideMenuExpansionTileState extends State<SideMenuExpansionTile> {
 
   Color getSelectedColor(BuildContext context) {
     final provider = Provider.of<SideMenuProvider>(context, listen: false);
-    return provider.isSelected(widget.key!)
+    return provider.isSelected(widget.id)
         ? widget.data.selectedTitleStyle?.color ??
             Theme.of(context).colorScheme.onSecondaryContainer
         : widget.data.titleStyle?.color ??
@@ -47,7 +48,7 @@ class SideMenuExpansionTileState extends State<SideMenuExpansionTile> {
 
   Widget? getSelectedIcon(BuildContext context) {
     final provider = Provider.of<SideMenuProvider>(context, listen: false);
-    return provider.isSelected(widget.key!) && widget.data.selectedIcon != null
+    return provider.isSelected(widget.id) && widget.data.selectedIcon != null
         ? widget.data.selectedIcon
         : widget.data.icon;
   }
@@ -62,7 +63,7 @@ class SideMenuExpansionTileState extends State<SideMenuExpansionTile> {
     final provider = Provider.of<SideMenuProvider>(context, listen: false);
     return AutoSizeText(
       widget.data.title,
-      style: provider.isSelected(widget.key!)
+      style: provider.isSelected(widget.id)
           ? selectedTitleStyle?.copyWith(color: getSelectedColor(context))
           : titleStyle?.copyWith(color: getSelectedColor(context)),
       maxLines: 1,
@@ -76,7 +77,7 @@ class SideMenuExpansionTileState extends State<SideMenuExpansionTile> {
     return ExpansionTile(
       initiallyExpanded: provider.shouldExpand(widget.data.children!),
       onExpansionChanged: (value) {
-        provider.selectTile(widget.key!, widget.data);
+        provider.selectTile(widget.id, widget.data);
         widget.onTileSelected?.call(widget.data);
       },
       leading: widget.data.icon,
@@ -88,7 +89,7 @@ class SideMenuExpansionTileState extends State<SideMenuExpansionTile> {
           .entries
           .map(
             (child) => Container(
-              color: provider.isSelected(child.value.mykey)
+              color: provider.isSelected(child.value.id)
                   ? widget.data.highlightSelectedColor ??
                       Theme.of(context).colorScheme.secondaryContainer
                   : null,
