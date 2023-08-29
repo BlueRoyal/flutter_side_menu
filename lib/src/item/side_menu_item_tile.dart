@@ -53,10 +53,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
           child: InkWell(
             onTap: () {
               provider.selectTile(widget.key!, widget.data);
-              if(widget.data.onTap != null){
-                widget.data.onTap?.call();
-              }
-
+              widget.data.onTap?.call();
               widget.onTileSelected?.call(widget.data);
             },
             hoverColor: widget.data.hoverColor,
@@ -69,9 +66,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
         initiallyExpanded: provider.shouldExpand(widget.data.children!),
         onExpansionChanged: (value) {
           provider.selectTile(widget.key!, widget.data);
-          if(widget.data.onTap != null){
             widget.data.onTap?.call();
-          }
           widget.onTileSelected?.call(widget.data);
         },
         leading: widget.data.icon,
