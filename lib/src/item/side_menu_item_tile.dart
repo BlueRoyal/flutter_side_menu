@@ -72,7 +72,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
         },
         leading: widget.data.icon,
         shape: shape(context),
-        textColor: Colors.white,
+        textColor: getSelectedColor(context),
         title: _title(context: context),
         children: widget.data.children!
             .asMap()
