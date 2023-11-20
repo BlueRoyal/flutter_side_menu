@@ -37,20 +37,19 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
   Widget _buildContent(BuildContext context) {
     final provider = Provider.of<SideMenuProvider>(context);
     if (widget.data.children?.isEmpty ?? true) {
-      return Container(
+      return Padding(padding:const EdgeInsets.only(left:2),child:Container(
         height: 50,
-        margin: widget.data.margin,
-        decoration: ShapeDecoration(
-          shape: shape(context),
+        margin: widget.data.margin  ,
+        decoration: BoxDecoration(
           color: provider.isSelected(widget.id)
               ? widget.data.highlightSelectedColor ??
-                  Theme.of(context).colorScheme.secondaryContainer
+              Theme.of(context).colorScheme.secondaryContainer
               : null,
         ),
         child: Material(
           color: Colors.transparent,
           clipBehavior: Clip.hardEdge,
-          shape: shape(context),
+         // shape: shape(context),
           child: InkWell(
             onTap: () {
               provider.selectTile(widget.id, widget.data);
@@ -61,7 +60,8 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
             child: _createView(context: context),
           ),
         ),
-      );
+      ),);
+
     } else {
       return ExpansionTile(
         initiallyExpanded: provider.shouldExpand(widget.data.children!),
@@ -83,13 +83,13 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
                     ? widget.data.highlightSelectedColor ??
                         Theme.of(context).colorScheme.secondaryContainer
                     : null,
-                child: SideMenuItemTile(
+                child: Padding(padding:const EdgeInsets.only(left:10),child:SideMenuItemTile(
                   id: child.value.id,
                   onTileSelected: widget.onTileSelected,
                   isOpen: widget.isOpen,
                   minWidth: widget.minWidth,
                   data: child.value,
-                ),
+                ),),
               ),
             )
             .toList(),

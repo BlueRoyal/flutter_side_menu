@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
                 print(tile.id);
               },
               controller: _controller,
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: Colors.white,
               mode: SideMenuMode.open,
               builder: (data) {
                 return SideMenuData(
